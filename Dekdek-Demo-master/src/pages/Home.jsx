@@ -194,7 +194,7 @@ export default function Home() {
         <div className="relative z-10 max-w-3xl">
           <div className="flex items-center gap-2 mb-4">
             <span className="px-3 py-1 text-xs font-bold rounded-full" style={{ background: 'rgba(252,209,22,0.15)', color: '#FCD116', border: '1px solid rgba(252,209,22,0.3)' }}>
-              🇵🇭 DepEd Analytics
+              🇵🇭 DOST Analytics
             </span>
           </div>
           <h1 className="text-3xl lg:text-5xl font-black text-white leading-tight mb-4" style={{ textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}>
@@ -285,7 +285,7 @@ export default function Home() {
           </div>
         </div>
         <div className="mt-8 pt-6 text-center text-xs text-slate-700" style={{ borderTop: '1px solid rgba(0,56,168,0.1)' }}>
-          © 2026 STARMap PH. Department of Education, Republic of the Philippines. All rights reserved.
+          © 2026 STARMap PH. Republic of the Philippines. All rights reserved.
         </div>
       </footer>
     </div>

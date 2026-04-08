@@ -1,4 +1,6 @@
 import L from 'leaflet'
+import booleanPointInPolygon from '@turf/boolean-point-in-polygon'
+import { point } from '@turf/helpers'
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
 import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import markerShadow from 'leaflet/dist/images/marker-shadow.png'
@@ -42,15 +44,15 @@ const regionGapData = {
   region1:  { scienceGap: 2800, mathGap: 2200, level: 'medium'   }, // 🟡 yellow — Ilocos
   car:      { scienceGap: 3000, mathGap: 2400, level: 'medium'   }, // 🟡 yellow — Cordillera
   region6:  { scienceGap: 3200, mathGap: 2600, level: 'medium'   }, // 🟡 yellow — W. Visayas
-  region11: { scienceGap: 3300, mathGap: 2600, level: 'medium'   }, // 🟡 yellow — Davao
+  region11: { scienceGap: 1300, mathGap: 2600, level: 'medium'   }, // 🟡 yellow — Davao
   region2:  { scienceGap: 4200, mathGap: 3400, level: 'high'     }, // 🟠 orange — Cagayan Valley
   region8:  { scienceGap: 4300, mathGap: 3500, level: 'high'     }, // 🟠 orange — E. Visayas
-  region5:  { scienceGap: 4500, mathGap: 3600, level: 'high'     }, // 🟠 orange — Bicol
+  region5:  { scienceGap: 4500, mathGap: 1600, level: 'high'     }, // 🟠 orange — Bicol
   region10: { scienceGap: 4700, mathGap: 3700, level: 'high'     }, // 🟠 orange — N. Mindanao
-  region3:  { scienceGap: 4800, mathGap: 3800, level: 'high'     }, // 🟠 orange — Central Luzon
-  region13: { scienceGap: 5200, mathGap: 4300, level: 'critical' }, // 🔴 red    — Caraga
+  region3:  { scienceGap: 3800, mathGap: 1000, level: 'high'     }, // 🟠 orange — Central Luzon
+  region13: { scienceGap: 2200, mathGap: 4300, level: 'critical' }, // 🔴 red    — Caraga
   region4b: { scienceGap: 5600, mathGap: 4600, level: 'critical' }, // 🔴 red    — MIMAROPA
-  region12: { scienceGap: 5800, mathGap: 4800, level: 'critical' }, // 🔴 red    — SOCCSKSARGEN
+  region12: { scienceGap: 5800, mathGap: 1800, level: 'critical' }, // 🔴 red    — SOCCSKSARGEN
   region9:  { scienceGap: 6200, mathGap: 5100, level: 'critical' }, // 🔴 red    — Zamboanga
   barmm:    { scienceGap: 7200, mathGap: 6000, level: 'critical' }, // 🔴 red    — BARMM (worst)
 }
@@ -131,30 +133,52 @@ export const regionsGeoJSON = {
   })
 }
 
-const makeSchools = (regionId, baseLat, baseLng, count = 12) => {
+const makeSchools = (regionId, baseLat, baseLng, count = 40) => {
   const types = ['normal', 'normal', 'mountain', 'no_power', 'normal', 'mountain', 'normal', 'normal', 'no_power', 'normal', 'mountain', 'normal']
-  const firstNames = ['Santos', 'Cruz', 'Reyes', 'Garcia', 'Torres', 'Mendoza', 'Flores', 'Rivera', 'Dela Cruz', 'Bautista', 'Ramos', 'Villanueva', 'Gutierrez', 'Aquino', 'Castillo']
-  const subjects = ['Physics', 'Chemistry', 'Biology', 'Earth Science', 'General Science', 'Algebra', 'Calculus', 'Statistics', 'General Math', 'Computer Science']
-  const prefixes = ['Ms.', 'Mr.', 'Dr.', 'Prof.']
-  const schoolNames = [
-    'National High School', 'Central Elementary School', 'Science and Technology High School',
-    'Integrated School', 'Community College', 'Technical Vocational School',
-    'Regional Science High School', 'Public Elementary School', 'Barangay High School',
-    'Municipal Science School', 'District High School', 'Pilot Elementary School',
-  ]
-  return Array.from({ length: count }, (_, i) => ({
-    id: `${regionId}-school-${i + 1}`,
-    name: `${firstNames[i % firstNames.length]} ${schoolNames[i % schoolNames.length]}`,
-    lat: baseLat + (Math.random() - 0.5) * 1.5,
-    lng: baseLng + (Math.random() - 0.5) * 1.5,
-    type: types[i % types.length],
-    teachers: Array.from({ length: 5 }, (_, j) => ({
-      name: `${prefixes[(i + j) % prefixes.length]} ${firstNames[(i * 3 + j) % firstNames.length]}`,
-      subject: subjects[(i + j * 2) % subjects.length],
-      years: Math.floor(Math.random() * 25) + 1,
-      specialization: subjects[(i + j) % subjects.length],
-    }))
-  }))
+
+  const schools = []
+
+  let attempts = 0
+  const maxAttempts = count * 20
+
+  // 🔑 find the correct region polygon ONCE
+  const regionFeature = phRegionsRaw.features.find(
+    f => (phIdMap[f.properties.id] || f.properties.id) === regionId
+  )
+
+  while (schools.length < count && attempts < maxAttempts) {
+    attempts++
+
+    const lat = baseLat + (Math.random() - 0.5) * 1.5
+    const lng = baseLng + (Math.random() - 0.5) * 1.5
+
+    const pt = point([lng, lat])
+
+    // ✅ ONLY allow points inside the region
+    const inside = regionFeature
+      ? booleanPointInPolygon(pt, regionFeature)
+      : false
+
+    if (!inside) continue
+
+    const i = schools.length
+
+    schools.push({
+      id: `${regionId}-school-${i + 1}`,
+      name: `School ${i + 1}`,
+      lat,
+      lng,
+      type: types[i % types.length],
+      teachers: Array.from({ length: 5 }, (_, j) => ({
+        name: `Teacher ${j + 1}`,
+        subject: 'Science',
+        years: Math.floor(Math.random() * 25) + 1,
+        specialization: 'General Science',
+      }))
+    })
+  }
+
+  return schools
 }
 
 export const schoolsPerRegion = {
@@ -206,7 +230,7 @@ export const educatorStats = {
     needed: 38000,
     available: 22000,
     specializations: [
-      { name: 'Physics', needed: 9500, available: 4800 },
+      { name: 'Physics', needed: 9500, available: 4665 },
       { name: 'Chemistry', needed: 8500, available: 5200 },
       { name: 'Biology', needed: 10000, available: 6700 },
       { name: 'Earth Science', needed: 5500, available: 3100 },
@@ -219,7 +243,7 @@ export const projectionData = {
   labels: ['2026', '2027', '2028', '2029', '2030'],
   science: [45000, 43000, 40000, 37000, 33000],
   math: [38000, 36000, 33000, 30000, 27000],
-  needed: [85000, 88000, 91000, 94000, 97000],
+  needed: [83000, 84000, 90000, 94000, 99000],
 }
 
 export const specializations = [
