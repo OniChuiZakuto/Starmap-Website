@@ -1,0 +1,237 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    @apply bg-[#0a0e1a] text-slate-200 font-sans;
+    scroll-behavior: smooth;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0a0e1a;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #0038A8;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #1a4fc8;
+  }
+}
+
+@layer components {
+  .glow-text {
+    text-shadow: 0 0 20px rgba(0, 56, 168, 0.8), 0 0 40px rgba(0, 56, 168, 0.4);
+  }
+
+  .glow-text-yellow {
+    text-shadow: 0 0 20px rgba(252, 209, 22, 0.8), 0 0 40px rgba(252, 209, 22, 0.4);
+  }
+
+  .glow-text-red {
+    text-shadow: 0 0 20px rgba(206, 17, 38, 0.8), 0 0 40px rgba(206, 17, 38, 0.4);
+  }
+
+  .card-glass {
+    @apply border border-blue-900/30 bg-slate-900/50 backdrop-blur-sm rounded-xl;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .card-glass:hover {
+    box-shadow: 0 0 20px rgba(0, 56, 168, 0.3), 0 4px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .btn-primary {
+    @apply px-6 py-3 bg-ph-blue text-white font-semibold rounded-lg transition-all duration-300;
+    box-shadow: 0 0 10px rgba(0, 56, 168, 0.4);
+  }
+
+  .btn-primary:hover {
+    @apply bg-ph-blue-light;
+    box-shadow: 0 0 20px rgba(0, 56, 168, 0.7), 0 0 40px rgba(0, 56, 168, 0.3);
+    transform: translateY(-1px);
+  }
+
+  .nav-link {
+    @apply px-3 py-2 rounded-md text-sm font-medium text-slate-300 transition-all duration-200;
+  }
+
+  .nav-link:hover {
+    @apply text-white bg-blue-900/40;
+  }
+
+  .nav-link.active {
+    @apply text-ph-yellow bg-blue-900/60;
+    text-shadow: 0 0 10px rgba(252, 209, 22, 0.5);
+  }
+
+  .sidebar-card {
+    @apply p-4 rounded-xl border transition-all duration-300 cursor-default;
+  }
+
+  .map-container-full {
+    width: 100%;
+    height: 100%;
+  }
+
+  .confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    animation: confettiFall 3s ease-in forwards;
+  }
+
+  @keyframes confettiFall {
+    0% {
+      transform: translateY(-100px) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(500px) rotate(720deg);
+      opacity: 0;
+    }
+  }
+}
+
+/* Leaflet overrides for dark theme */
+.leaflet-container {
+  background: #0a0e1a !important;
+  font-family: 'Inter', sans-serif;
+}
+
+.leaflet-popup-content-wrapper {
+  background: #0f1629 !important;
+  border: 1px solid rgba(0, 56, 168, 0.4) !important;
+  border-radius: 8px !important;
+  color: #e2e8f0 !important;
+  box-shadow: 0 0 20px rgba(0, 56, 168, 0.3) !important;
+}
+
+.leaflet-popup-tip {
+  background: #0f1629 !important;
+}
+
+.leaflet-popup-close-button {
+  color: #94a3b8 !important;
+}
+
+.leaflet-popup-close-button:hover {
+  color: #ffffff !important;
+}
+
+.leaflet-tooltip {
+  background: #0f1629 !important;
+  border: 1px solid rgba(0, 56, 168, 0.4) !important;
+  color: #e2e8f0 !important;
+  border-radius: 6px !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 12px !important;
+  padding: 6px 10px !important;
+}
+
+.leaflet-control-zoom a {
+  background: #0f1629 !important;
+  color: #e2e8f0 !important;
+  border-color: rgba(0, 56, 168, 0.4) !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: #162040 !important;
+}
+
+.leaflet-control-attribution {
+  background: rgba(10, 14, 26, 0.8) !important;
+  color: #64748b !important;
+}
+
+.leaflet-control-attribution a {
+  color: #0038A8 !important;
+}
+
+/* Custom school pin icons */
+.school-pin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.school-pin:hover {
+  transform: scale(1.3);
+}
+
+/* Chart.js canvas */
+canvas {
+  max-width: 100%;
+}
+
+/* Gradient backgrounds */
+.bg-dark-primary {
+  background-color: #0a0e1a;
+}
+
+.bg-dark-surface {
+  background-color: #0f1629;
+}
+
+.bg-dark-card {
+  background-color: #162040;
+}
+
+/* Animations */
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #162040 25%, #1e2d5a 50%, #162040 75%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Toast notification */
+.toast {
+  @apply fixed bottom-6 right-6 z-50 px-6 py-4 rounded-xl text-white font-semibold;
+  background: linear-gradient(135deg, #0038A8, #1a4fc8);
+  box-shadow: 0 0 30px rgba(0, 56, 168, 0.5), 0 4px 24px rgba(0, 0, 0, 0.4);
+  animation: slideInRight 0.3s ease-out, fadeOut 0.5s ease-out 2.5s forwards;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(100px); }
+}
+
+/* Stepper */
+.step-active {
+  background: #0038A8;
+  border-color: #0038A8;
+  box-shadow: 0 0 12px rgba(0, 56, 168, 0.7);
+}
+
+.step-done {
+  background: #10b981;
+  border-color: #10b981;
+}
+
+.step-inactive {
+  background: #162040;
+  border-color: rgba(0, 56, 168, 0.3);
+}
