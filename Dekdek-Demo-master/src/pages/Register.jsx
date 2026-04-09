@@ -360,13 +360,13 @@ const handleCSVUpload = (e) => {
               <input
                 type="range"
                 min="2027"
-                max="2040"
+                max="2097"
                 value={form.retirementYear}
                 onChange={e => set('retirementYear', Number(e.target.value))}
                 className="w-full mt-2 accent-blue-600"
               />
               <div className="flex justify-between text-xs text-slate-600 mt-1">
-                <span>2027</span><span>2033</span><span>2040</span>
+                <span>2027</span><span>2062</span><span>2097</span>
               </div>
             </FieldWrapper>
             <FieldWrapper label={<>Years of Teaching Experience <FieldOk k="experience" /></>} error={errors.experience}>
