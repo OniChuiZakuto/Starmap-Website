@@ -2,6 +2,7 @@ import React from 'react'
 import { useTheme } from '../App'
 import TopNav from './TopNav'
 import Sidebar from './Sidebar'
+import Chatbot from './Chatbot'
 
 export default function Layout({ children }) {
   const { dark } = useTheme()
@@ -18,6 +19,7 @@ export default function Layout({ children }) {
           {children}
         </main>
       </div>
+      <Chatbot />
     </div>
   )
 }
