@@ -148,6 +148,62 @@ export default function Register() {
 
       <StepIndicator current={step} />
 
+      {/* Incentives Section */}
+<div
+  className="mb-8 p-6 rounded-2xl"
+  style={{
+    background: 'linear-gradient(135deg, #1a1200 0%, #2a1f00 50%, #0f1629 100%)',
+    border: '1px solid rgba(252,209,22,0.3)',
+    boxShadow: '0 0 24px rgba(252,209,22,0.1)',
+  }}
+>
+  <div className="flex items-center gap-3 mb-4">
+    <span className="text-2xl" style={{ filter: 'drop-shadow(0 0 8px #FCD116)' }}>⭐</span>
+    <h2 className="text-xl font-black text-white">Why Register as a STAR Teacher?</h2>
+  </div>
+
+  <div className="space-y-3 mb-4">
+    {[
+      'Earn a verified ⭐ STAR Teacher badge on your profile',
+      'Get featured in national education insights & dashboards',
+      'Exclusive access to premium teaching tools & resources',
+      'Automatic raffle entries for grants, devices & training programs',
+      'Priority eligibility for sponsorships and funding opportunities',
+    ].map((b, i) => (
+      <div key={i} className="flex items-start gap-3">
+        <CheckCircleIcon className="w-5 h-5 shrink-0 mt-0.5" style={{ color: '#FCD116' }} />
+        <p className="text-sm text-slate-300">{b}</p>
+      </div>
+    ))}
+  </div>
+
+  <div
+    className="p-4 rounded-xl mt-2"
+    style={{
+      background: 'rgba(252,209,22,0.08)',
+      border: '1px solid rgba(252,209,22,0.2)',
+    }}
+  >
+    <p className="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-2">
+      STAR Teacher Perks
+    </p>
+    <div className="grid grid-cols-2 gap-4">
+      <div>
+        <p className="text-2xl font-black" style={{ color: '#FCD116', textShadow: '0 0 12px rgba(252,209,22,0.6)' }}>
+          ⭐ Verified
+        </p>
+        <p className="text-xs text-slate-400 mt-0.5">Recognition badge</p>
+      </div>
+      <div>
+        <p className="text-2xl font-black text-white" style={{ textShadow: '0 0 12px rgba(255,255,255,0.2)' }}>
+          🎁 Rewards
+        </p>
+        <p className="text-xs text-slate-400 mt-0.5">Raffles & incentives</p>
+      </div>
+    </div>
+  </div>
+</div>
+
       <div
         className="p-6 rounded-2xl space-y-5"
         style={{ background: '#0f1629', border: '1px solid rgba(0,56,168,0.2)' }}
