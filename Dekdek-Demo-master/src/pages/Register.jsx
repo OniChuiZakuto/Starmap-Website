@@ -104,6 +104,46 @@ export default function Register() {
     setErrors(e => ({ ...e, [key]: undefined }))
   }
 
+const handleCSVUpload = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  if (!file.name.endsWith('.csv')) {
+    alert('Please upload a CSV file only.');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    const csvData = event.target.result
+      .trim()
+      .split('\n')
+      .map(row => row.split(',').map(cell => cell.trim()));
+
+    if (!csvData.length) return;
+
+    // Take first row to auto-fill form
+    const [
+      name, email, age, depedId, field, specialization, retirementYear, experience, region
+    ] = csvData[0];
+
+    setForm({
+      name: name || '',
+      email: email || '',
+      age: age || '',
+      depedId: depedId || '',
+      field: field || 'Science',
+      specialization: specialization || '',
+      retirementYear: retirementYear ? Number(retirementYear) : 2030,
+      experience: experience || '',
+      region: region || '',
+    });
+
+    setErrors({});
+  };
+  reader.readAsText(file);
+};
+
   const validateStep0 = () => {
     const e = {}
     if (!form.name.trim()) e.name = 'Name is required'
@@ -208,7 +248,26 @@ export default function Register() {
         className="p-6 rounded-2xl space-y-5"
         style={{ background: '#0f1629', border: '1px solid rgba(0,56,168,0.2)' }}
       >
-        {/* Step 0 */}
+          {/* CSV Upload */}
+<FieldWrapper label="Upload CSV to auto-fill form">
+  <div className="relative">
+  <input
+    type="file"
+    accept=".csv"
+    onChange={handleCSVUpload}
+    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+  />
+  <button
+    type="button"
+    className="w-full py-2.5 rounded-lg font-semibold text-white text-sm bg-gradient-to-r from-blue-800 to-blue-600 hover:from-blue-700 hover:to-blue-500 transition-all shadow-md"
+  >
+    Choose CSV File
+  </button>
+</div>
+<p className="text-xs text-slate-500 mt-1">
+  CSV format (one row per teacher): Name,Email,Age,DepEdID,Field,Specialization,RetirementYear,Experience,Region
+</p>
+</FieldWrapper>
         {step === 0 && (
           <>
             <h2 className="text-lg font-black text-white mb-4">Personal Information</h2>
