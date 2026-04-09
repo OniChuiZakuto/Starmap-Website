@@ -8,6 +8,12 @@ const DRAGGABLE_MARGIN = 20
 const DRAG_LERP = 0.2 // softness factor: 0.1 = very soft, 1 = instant
 
 const hardcodedResponses = [
+  { keywords: ['thank'], answer: "You're welcome! 😊" },
+  { keywords: ['thank'], answer: "You're welcome! 😊" },
+  { keywords: ['hello', 'hi'], answer: 'Hello! How can I assist you with STARMap today?' },
+  { keywords: ['what are you', 'who are you'], answer: 'I’m STARRY, your friendly STARMap assistant! ⭐' },
+  { keywords: ['weather'], answer: 'I can’t fetch live weather yet, but I can guide you to resources or locations if needed!' },
+  { keywords: ['news'], answer: 'I can give you updates about STARMap programs, events, and new equipment lenders.' },
   { keywords: ['register', 'registration'], answer: 'You can register on the Register page accessible from the top menu.' },
   { keywords: ['home'], answer: 'This is the Home page of STARMap PH. Explore data and insights here!' },
   { keywords: ['starmap'], answer: 'STARMap PH is an analytics platform showing teacher distribution and gaps in STEM education.' },
