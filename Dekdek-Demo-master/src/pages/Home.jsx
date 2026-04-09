@@ -250,6 +250,83 @@ export default function Home() {
       <NewsCarousel />
       <ShortagesChart />
 
+      {/* Feedback Section */}
+<section className="px-6 py-12">
+  <div
+    className="max-w-3xl p-6 rounded-xl mx-auto"
+    style={{
+      background: '#0f1629',
+      border: '1px solid rgba(0,56,168,0.2)',
+    }}
+  >
+    <h2 className="text-xl font-black text-white mb-2">Feedback</h2>
+    <p className="text-sm text-slate-400 mb-6">
+      Help us improve STARMap PH. Share your thoughts, suggestions, or report issues you’ve encountered while using the platform.
+    </p>
+
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        alert('Thank you for your feedback! (Demo only)')
+      }}
+      className="space-y-4"
+    >
+      {/* Name */}
+      <input
+        type="text"
+        placeholder="Your Name (optional)"
+        className="w-full p-3 rounded-lg text-sm text-white placeholder-slate-500"
+        style={{
+          background: '#0a0e1a',
+          border: '1px solid rgba(0,56,168,0.25)',
+        }}
+      />
+
+      {/* Email */}
+      <input
+        type="email"
+        placeholder="Your Email (optional)"
+        className="w-full p-3 rounded-lg text-sm text-white placeholder-slate-500"
+        style={{
+          background: '#0a0e1a',
+          border: '1px solid rgba(0,56,168,0.25)',
+        }}
+      />
+
+      {/* Message */}
+      <textarea
+        rows="4"
+        placeholder="Write your feedback here..."
+        className="w-full p-3 rounded-lg text-sm text-white placeholder-slate-500 resize-none"
+        style={{
+          background: '#0a0e1a',
+          border: '1px solid rgba(0,56,168,0.25)',
+        }}
+      />
+
+      {/* Button */}
+      <button
+        type="submit"
+        className="px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-200"
+        style={{
+          background: '#0038A8',
+          color: '#fff',
+          border: '1px solid #0038A8',
+          boxShadow: '0 0 10px rgba(0,56,168,0.4)',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = '#002f87'
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = '#0038A8'
+        }}
+      >
+        Submit Feedback
+      </button>
+    </form>
+  </div>
+</section>
+
       {/* Footer */}
       <footer
         className="mt-8 px-6 py-10"
